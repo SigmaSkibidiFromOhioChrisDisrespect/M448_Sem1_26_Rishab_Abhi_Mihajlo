@@ -1,11 +1,14 @@
 
 import type { Song } from "../../types/music";
 
-const YOUTUBE_API_KEY = process.env.EXPO_PUBLIC_YOUTUBE_API_KEY;
+const YOUTUBE_API_KEY =
+  process.env.EXPO_PUBLIC_YOUTUBE_API_KEY;
 
-export async function searchYouTube(query: string): Promise<Song[]> {
+export async function searchYouTube(
+  query: string
+): Promise<Song[]> {
   if (!YOUTUBE_API_KEY) {
-    throw new Error("YouTube API key is missing.");
+    throw new Error("Missing YouTube API key");
   }
 
   const params = new URLSearchParams({
@@ -23,7 +26,7 @@ export async function searchYouTube(query: string): Promise<Song[]> {
   );
 
   if (!response.ok) {
-    throw new Error(`YouTube API error: ${response.status}`);
+    throw new Error(`YouTube error: ${response.status}`);
   }
 
   const data = await response.json();
@@ -33,8 +36,10 @@ export async function searchYouTube(query: string): Promise<Song[]> {
     title: item.snippet.title,
     artist: item.snippet.channelTitle,
     album: "",
-    artworkUrl: item.snippet.thumbnails.high?.url ??
-      item.snippet.thumbnails.default?.url ?? "",
+    artworkUrl:
+      item.snippet.thumbnails.high?.url ??
+      item.snippet.thumbnails.default?.url ??
+      "",
     duration: 0,
     provider: "youtube",
     providerId: item.id.videoId,

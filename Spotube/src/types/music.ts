@@ -1,4 +1,4 @@
-export type MusicProvider = "youtube" | "itunes" | "soundcloud";
+export type MusicProvider = "youtube" | "itunes";
 
 export interface Song {
   id: number;
