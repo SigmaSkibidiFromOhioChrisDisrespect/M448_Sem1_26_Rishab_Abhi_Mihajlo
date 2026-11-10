@@ -1,0 +1,15 @@
+export type MusicProvider = "youtube" | "itunes" | "soundcloud";
+
+export interface Song {
+  id: number;
+  title: string;
+  artist: string;
+  album: string;
+  artworkUrl: string;
+  duration: number;
+  provider: MusicProvider;
+  providerId: string;
+  audioUrl: string | null;
+}
+
+export type NewSong = Omit<Song, "id">;
