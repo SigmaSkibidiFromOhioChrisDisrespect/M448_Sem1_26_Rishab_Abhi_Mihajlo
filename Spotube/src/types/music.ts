@@ -3,7 +3,7 @@
  * Specifies the expected structure and properties of a song object.
  */
 
-export type MusicProvider = "youtube" | "itunes" | "soundcloud";
+export type MusicProvider = "youtube" | "itunes";
 
 export interface Song {
   id: number;
