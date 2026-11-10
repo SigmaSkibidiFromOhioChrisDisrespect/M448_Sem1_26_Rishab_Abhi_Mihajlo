@@ -1,3 +1,8 @@
+/**
+ * Contains functions for managing song data in the database.
+ * Handles inserting, retrieving, updating, and deleting songs.
+ */
+
 import type { SQLiteDatabase } from "expo-sqlite";
 import type { NewSong, Song } from "../types/music";
 
