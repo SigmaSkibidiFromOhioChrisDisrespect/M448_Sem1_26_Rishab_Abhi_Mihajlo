@@ -1,3 +1,8 @@
+/**
+ * Initializes the SQLite database and creates the required tables.
+ * Handles the database connection and setup for storing app data.
+ */
+
 import type { SQLiteDatabase } from "expo-sqlite";
 
 export const initDb = async (db: SQLiteDatabase): Promise<void> => {
