@@ -1,11 +1,10 @@
-import Textfield from "@/components/common/Textfield";
-import { Text, View, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   return (
     <View style={styles.container}>
       <Text>Search</Text>
-      <Textfield placeholder="Search..." backgroundColor="#1D1D27"></Textfield>
+      // Temporarily removed textfield to troubleshoot
     </View>
   );
 }

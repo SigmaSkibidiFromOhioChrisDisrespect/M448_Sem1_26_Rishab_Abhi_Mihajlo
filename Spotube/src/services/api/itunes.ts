@@ -1,7 +1,9 @@
 
 import type { Song } from "../../types/music";
 
-export async function searchITunes(query: string): Promise<Song[]> {
+export async function searchITunes(
+  query: string
+): Promise<Song[]> {
   const params = new URLSearchParams({
     term: query,
     media: "music",
@@ -15,7 +17,7 @@ export async function searchITunes(query: string): Promise<Song[]> {
   );
 
   if (!response.ok) {
-    throw new Error(`iTunes API error: ${response.status}`);
+    throw new Error(`iTunes error: ${response.status}`);
   }
 
   const data = await response.json();
