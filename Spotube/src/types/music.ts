@@ -5,11 +5,6 @@ export type MusicProvider = "youtube" | "itunes";
  * Specifies the expected structure and properties of a song object.
  */
 
-<<<<<<< HEAD
-export type MusicProvider = "youtube" | "itunes";
-
-=======
->>>>>>> 0d24dc3a6a155d88d0d82369aa56b2a755d1b2a1
 export interface Song {
   id: number;
   title: string;

@@ -1,10 +1,11 @@
+import { Link } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   return (
     <View style={styles.container}>
       <Text>Search</Text>
-      // Temporarily removed textfield to troubleshoot
+      <Link href="/search">Search for songs</Link>
     </View>
   );
 }

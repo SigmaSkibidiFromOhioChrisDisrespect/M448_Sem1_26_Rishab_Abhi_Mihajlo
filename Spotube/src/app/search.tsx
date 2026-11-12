@@ -19,6 +19,7 @@ export default function SearchScreen() {
     search(query.trim());
   };
 
+
   return (
     <View style={styles.container}>
       {/* Page heading */}

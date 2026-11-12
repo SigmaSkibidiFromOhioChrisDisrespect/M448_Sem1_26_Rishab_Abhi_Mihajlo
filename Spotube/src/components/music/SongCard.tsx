@@ -28,7 +28,7 @@ export default function SongCard({ song, onPress }: SongCardProps) {
         source={
           song.artworkUrl
             ? { uri: song.artworkUrl }
-            : require("@/assets/images/placeholder.png")
+            : undefined
         }
         style={styles.artwork}
       />
