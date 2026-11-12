@@ -1,23 +1,31 @@
 import React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 
-type propsType = {
+type Props = {
   placeholder: string;
   backgroundColor?: string;
-  placeholderTextColor?: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  onSubmitEditing: () => void;
 };
 
-const Textfield: React.FC<propsType> = ({
+const Textfield: React.FC<Props> = ({
   placeholder,
   backgroundColor,
-  placeholderTextColor,
+  value,
+  onChangeText,
+  onSubmitEditing,
 }) => {
   return (
     <View>
       <TextInput
         style={[styles.inputBox, backgroundColor && { backgroundColor }]}
         placeholder={placeholder}
-        placeholderTextColor={placeholderTextColor || "lightgray"}
+        placeholderTextColor="black"
+        value={value}
+        onChangeText={onChangeText}
+        onSubmitEditing={onSubmitEditing}
+        returnKeyType="search"
       />
     </View>
   );

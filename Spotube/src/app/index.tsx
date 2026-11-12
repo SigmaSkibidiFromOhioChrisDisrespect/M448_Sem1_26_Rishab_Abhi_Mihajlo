@@ -1,11 +1,11 @@
-import Textfield from "@/components/common/Textfield";
-import { Text, View, StyleSheet } from "react-native";
+import { Link } from "expo-router";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   return (
     <View style={styles.container}>
       <Text>Search</Text>
-      <Textfield placeholder="Search..." backgroundColor="#1D1D27"></Textfield>
+      <Link href="/search">Search for songs</Link>
     </View>
   );
 }
