@@ -4,21 +4,11 @@
  */
 
 import type { SQLiteDatabase } from "expo-sqlite";
+import { CREATE_TABLES } from "./schema";
 
 export const initDb = async (db: SQLiteDatabase): Promise<void> => {
-  await db.execAsync(`
-    CREATE TABLE IF NOT EXISTS songs (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL,
-      artist TEXT NOT NULL,
-      album TEXT NOT NULL,
-      artworkUrl TEXT NOT NULL,
-      duration INTEGER NOT NULL,
-      provider TEXT NOT NULL
-        CHECK (provider IN ('youtube', 'itunes', 'soundcloud')),
-      providerId TEXT NOT NULL,
-      audioUrl TEXT,
-      UNIQUE (provider, providerId)
-    );
-  `);
+  //protection check to ensure foreign key constraints are enforced
+  await db.execAsync("PRAGMA foreign_keys = ON;");
+  //actual table creation
+  await db.execAsync(CREATE_TABLES);
 };

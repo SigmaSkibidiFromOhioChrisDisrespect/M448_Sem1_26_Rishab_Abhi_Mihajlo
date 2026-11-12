@@ -1,5 +1,3 @@
-export type MusicProvider = "youtube" | "itunes";
-
 /**
  * Defines the TypeScript types used for music data in VYBE.
  * Specifies the expected structure and properties of a song object.
