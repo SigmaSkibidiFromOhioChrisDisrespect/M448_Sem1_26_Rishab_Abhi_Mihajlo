@@ -16,5 +16,15 @@ export interface Song {
   providerId: string;
   audioUrl: string | null;
 }
+export type Album = {
+  id: string;
+  title: string;
+  artist: string;
+  artworkUrl: string;
+  releaseDate?: string;
+  trackCount?: number;
+  provider: "itunes" | "youtube";
+  providerId: string;
+}
 
 export type NewSong = Omit<Song, "id">;
