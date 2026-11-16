@@ -23,8 +23,8 @@ export type Album = {
   artworkUrl: string;
   releaseDate?: string;
   trackCount?: number;
-  provider: "itunes" | "youtube";
+  provider: MusicProvider;
   providerId: string;
-}
+};
 
 export type NewSong = Omit<Song, "id">;
