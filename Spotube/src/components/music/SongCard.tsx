@@ -1,6 +1,5 @@
 // AI GENERATED IN ORDER TO TEST THE API, NOT FINAL CODE.
 
-
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 // Display catalog results without requiring an ID assigned only when a song is saved.
@@ -15,7 +14,7 @@ type SongCardProps = {
 export default function SongCard({ song, onPress }: SongCardProps) {
   // Convert milliseconds into minutes and seconds
   const formatDuration = (duration: number) => {
-    const seconds = Math.floor(duration / 1000);
+    const seconds = Math.floor(duration);
 
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -27,11 +26,7 @@ export default function SongCard({ song, onPress }: SongCardProps) {
     <Pressable style={styles.container} onPress={() => onPress?.(song)}>
       {/* Album artwork */}
       <Image
-        source={
-          song.artworkUrl
-            ? { uri: song.artworkUrl }
-            : undefined
-        }
+        source={song.artworkUrl ? { uri: song.artworkUrl } : undefined}
         style={styles.artwork}
       />
 

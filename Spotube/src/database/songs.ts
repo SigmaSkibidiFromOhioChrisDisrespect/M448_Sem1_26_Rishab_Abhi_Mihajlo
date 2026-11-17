@@ -11,7 +11,7 @@ export const insertSong = async (
   db: SQLiteDatabase,
   song: NewSong,
 ): Promise<number> => {
-  const result = await db.runAsync(
+  await db.runAsync(
     `INSERT INTO songs (
       title,
       artist,
@@ -21,7 +21,8 @@ export const insertSong = async (
       provider,
       providerId,
       audioUrl
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(provider, providerId) DO NOTHING;`,
     song.title,
     song.artist,
     song.album,
@@ -32,7 +33,18 @@ export const insertSong = async (
     song.audioUrl,
   );
 
-  return result.lastInsertRowId;
+  const savedSong = await db.getFirstAsync<{ id: number }>(
+    `SELECT id FROM songs
+     WHERE provider = ? AND providerId = ?;`,
+    song.provider,
+    song.providerId,
+  );
+
+  if (!savedSong) {
+    throw new Error("Could not retrieve the saved song.");
+  }
+
+  return savedSong.id;
 };
 
 // Retrieve all songs

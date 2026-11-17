@@ -1,8 +1,3 @@
-/**
- * Defines the SQL table structures used in the VYBE database.
- * Organizes the columns, relationships, and constraints for stored data.
- */
-
 export const CREATE_TABLES = `
   CREATE TABLE IF NOT EXISTS songs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -12,18 +7,18 @@ export const CREATE_TABLES = `
     artworkUrl TEXT NOT NULL,
     duration INTEGER NOT NULL,
     provider TEXT NOT NULL
-      CHECK (provider IN ('youtube', 'itunes', 'soundcloud')),
+      CHECK (provider IN ('youtube', 'itunes')),
     providerId TEXT NOT NULL,
     audioUrl TEXT,
     UNIQUE (provider, providerId)
   );
 
   CREATE TABLE IF NOT EXISTS playlists (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  description TEXT,
-  createdAt TEXT NOT NULL
-);
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT,
+    createdAt TEXT NOT NULL
+  );
 
   CREATE TABLE IF NOT EXISTS playlist_songs (
     playlistId INTEGER NOT NULL,

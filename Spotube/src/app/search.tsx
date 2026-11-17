@@ -1,17 +1,23 @@
+import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native";
 
 import Textfield from "@/components/common/Textfield";
-// Reuse the existing album list to display collection results from the search hook.
 import AlbumList from "@/components/music/AlbumList";
 import SongList from "@/components/music/SongList";
+
+import { insertSong } from "@/database/songs";
 import { useSearch } from "@/hooks/useSearch";
+import type { NewSong } from "@/types/music";
 
 export default function SearchScreen() {
   // Stores what the user types
   const [query, setQuery] = useState("");
 
-  // Read both song and album results from the iTunes-only search flow.
+  // Access the SQLite database
+  const db = useSQLiteContext();
+
+  // Read song and album results from the search hook
   const { songs, albums, loading, error, search } = useSearch();
 
   // Runs when the user submits their search
@@ -21,13 +27,27 @@ export default function SearchScreen() {
     search(query.trim());
   };
 
+  // Saves a selected song to SQLite
+  const handleSaveSong = async (song: NewSong) => {
+    try {
+      const songId = await insertSong(db, song);
+
+      Alert.alert("Song saved", `${song.title} was saved to your library.`);
+
+      console.log("Saved song ID:", songId);
+    } catch (error) {
+      console.error("Error saving song:", error);
+
+      Alert.alert("Save failed", "Could not save this song. Please try again.");
+    }
+  };
 
   return (
     <View style={styles.container}>
       {/* Page heading */}
       <Text style={styles.heading}>Search</Text>
 
-      {/* Include albums in the prompt now that album searches are connected. */}
+      {/* Search input */}
       <Textfield
         placeholder="Search songs, albums, or artists..."
         backgroundColor="#292929"
@@ -44,7 +64,7 @@ export default function SearchScreen() {
       {/* Error message */}
       {error && <Text style={styles.error}>{error}</Text>}
 
-      {/* Give albums their own bounded list, including searches with no matching songs. */}
+      {/* Album results */}
       {!loading && albums.length > 0 && (
         <View style={styles.results}>
           <Text style={styles.sectionTitle}>Albums</Text>
@@ -52,28 +72,36 @@ export default function SearchScreen() {
         </View>
       )}
 
-      {/* Keep song results in a separate section alongside the album list. */}
+      {/* Song results */}
       {!loading && songs.length > 0 && (
         <View style={styles.results}>
           <Text style={styles.sectionTitle}>Songs</Text>
 
-          <SongList songs={songs} />
+          <SongList songs={songs} onSongPress={handleSaveSong} />
         </View>
       )}
 
-      {/* The initial prompt is only appropriate when both result collections are empty. */}
-      {!loading && !error && songs.length === 0 && albums.length === 0 && query.length === 0 && (
-        <Text style={styles.message}>
-          Search for your favorite songs, albums, and artists.
-        </Text>
-      )}
+      {/* Initial search prompt */}
+      {!loading &&
+        !error &&
+        songs.length === 0 &&
+        albums.length === 0 &&
+        query.length === 0 && (
+          <Text style={styles.message}>
+            Search for your favorite songs, albums, and artists.
+          </Text>
+        )}
 
-      {/* Album-only matches are results too, so do not show a false empty-results message. */}
-      {!loading && !error && songs.length === 0 && albums.length === 0 && query.trim().length > 0 && (
-        <Text style={styles.message}>
-          No results found. Try another search.
-        </Text>
-      )}
+      {/* No results message */}
+      {!loading &&
+        !error &&
+        songs.length === 0 &&
+        albums.length === 0 &&
+        query.trim().length > 0 && (
+          <Text style={styles.message}>
+            No results found. Try another search.
+          </Text>
+        )}
     </View>
   );
 }
@@ -101,7 +129,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
 
-  // Bound each sibling list to a share of the available height so both remain scrollable.
+  // Bound each sibling list to a share of the available height
   results: {
     marginTop: 25,
     flex: 1,
