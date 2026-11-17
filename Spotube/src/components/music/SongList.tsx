@@ -2,11 +2,13 @@
 
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
-import type { Song } from "@/types/music";
+// Catalog search results have all display fields but no local database ID.
+import type { NewSong } from "@/types/music";
 import SongCard from "./SongCard";
 
 type SongListProps = {
-  songs: Song[];
+  // Accept unsaved search songs; saved Song objects are still compatible.
+  songs: NewSong[];
 };
 
 export default function SongList({ songs }: SongListProps) {

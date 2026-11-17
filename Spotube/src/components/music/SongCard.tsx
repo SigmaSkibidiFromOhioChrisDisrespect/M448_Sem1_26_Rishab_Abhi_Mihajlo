@@ -3,11 +3,13 @@
 
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-import type { Song } from "@/types/music";
+// Display catalog results without requiring an ID assigned only when a song is saved.
+import type { NewSong } from "@/types/music";
 
 type SongCardProps = {
-  song: Song;
-  onPress?: (song: Song) => void;
+  // Keep the card and its callback compatible with unsaved search results.
+  song: NewSong;
+  onPress?: (song: NewSong) => void;
 };
 
 export default function SongCard({ song, onPress }: SongCardProps) {

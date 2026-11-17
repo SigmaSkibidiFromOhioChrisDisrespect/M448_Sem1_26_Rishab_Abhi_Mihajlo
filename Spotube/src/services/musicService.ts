@@ -1,7 +1,8 @@
-import type { NewSong } from "../types/music";
-import { searchITunes } from "./api/itunes";
-import { searchYouTube } from "./api/youtube";
+// Search the iTunes catalog only so YouTube videos no longer appear in music results.
+import type { Album, NewSong } from "../types/music";
+import { searchITunes, searchITunesAlbums } from "./api/itunes";
 
+// Preserve the song-search API while excluding the former YouTube request and merge.
 export async function searchMusic(query: string): Promise<NewSong[]> {
   const cleanedQuery = query.trim();
 
@@ -9,19 +10,16 @@ export async function searchMusic(query: string): Promise<NewSong[]> {
     return [];
   }
 
-  const results = await Promise.allSettled([
-    searchYouTube(cleanedQuery),
-    searchITunes(cleanedQuery),
-  ]);
+  return searchITunes(cleanedQuery);
+}
 
-  const youtubeSongs =
-    results[0].status === "fulfilled" ? results[0].value : [];
+// Fetch album collections separately; a blank query should never send an album request.
+export async function searchAlbums(query: string): Promise<Album[]> {
+  const cleanedQuery = query.trim();
 
-  const itunesSongs = results[1].status === "fulfilled" ? results[1].value : [];
-
-  if (results.every((result) => result.status === "rejected")) {
-    throw new Error("Both music providers failed.");
+  if (!cleanedQuery) {
+    return [];
   }
 
-  return [...youtubeSongs, ...itunesSongs];
+  return searchITunesAlbums(cleanedQuery);
 }
